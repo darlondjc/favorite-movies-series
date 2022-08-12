@@ -1,3 +1,4 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -6,7 +7,6 @@ import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
@@ -43,9 +43,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
+      width: '20ch',
       '&:focus': {
-        width: '20ch',
+        width: '50ch',
       },
     },
   },
@@ -81,6 +81,7 @@ export function SearchAppBar(props: any) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={props.termoPesquisa.onChange}
             />
           </Search>
         </Toolbar>
