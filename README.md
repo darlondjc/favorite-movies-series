@@ -3,7 +3,7 @@ Gerenciador de filmes (e séries) favoritos
 
 ## Bibliotecas e frameworks
 - Vite
-- ~~Axios~~ **[not yet]**
+- Axios
 - Material UI
 - React Router Dom
 - ~~Redux~~ **[not yet]**
