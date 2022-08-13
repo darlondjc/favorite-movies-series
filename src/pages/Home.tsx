@@ -2,6 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { MyAppBar } from "../components/MyAppBar";
+import axios from "axios";
 
 const popularMoviesURL = import.meta.env.VITE_API;
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -19,10 +20,8 @@ export const Home = () => {
     const [termoPesquisa, setTermoPesquisa] = useState('');
 
     const getMovies = async (url: string) => {
-        const res = await fetch(url);
-        const data = await res.json();
-
-        setMovies(data.results);
+        await axios.get(url)
+            .then(response => setMovies(response.data.results));
     }
 
     useEffect(() => {
@@ -31,7 +30,6 @@ export const Home = () => {
     }, []);
 
     function handleChange(event: any) {
-        console.log(event.target.value);
         setTermoPesquisa(event.target.value);
     }
 

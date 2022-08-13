@@ -1,5 +1,6 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Card, CardMedia, Grid, IconButton, Typography } from "@mui/material";
+import axios from 'axios';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MyAppBar } from "../components/MyAppBar";
@@ -13,10 +14,8 @@ export const Movie = () => {
     const [movie, setMovie] = useState<any>([]);
 
     const getMovie = async (url: string) => {
-        const res = await fetch(url);
-        const data = await res.json();
-
-        setMovie(data);
+        await axios.get(url)
+            .then(response => setMovie(response.data));
     }
 
     useEffect(() => {
