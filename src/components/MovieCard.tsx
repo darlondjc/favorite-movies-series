@@ -8,13 +8,18 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const imageURL = import.meta.env.VITE_IMG;
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
+}
+
+interface SnackbarMessage {
+    message: string;
+    key: number;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
@@ -32,6 +37,7 @@ export default function MovieCard(props: any) {
     const [expanded, setExpanded] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [favorites, setFavorites] = useState<string[]>([]);
+    const [snackPack, setSnackPack] = useState<readonly SnackbarMessage[]>([]);
 
     const handleCloseSnack = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -41,11 +47,24 @@ export default function MovieCard(props: any) {
         setOpenSnackBar(false);
     };
 
+    useEffect(() => {
+        if (snackPack.length) {
+            // Set a new snack when we don't have an active one
+            setSnackPack((prev) => prev.slice(1));
+            setOpenSnackBar(true);
+        } else if (snackPack.length && openSnackBar) {
+            // Close an active snack when a new one is added
+            setOpenSnackBar(false);
+        }
+    }, [snackPack, open]);
+
     const handleFavorite = () => {
         setOpenSnackBar(true);
         if (!favorite) {
+            setSnackPack((prev) => [...prev, { message: 'Set favorited!', key: new Date().getTime() }]);
             setFavorites(prevFavorites => [...prevFavorites, props.movie.id]);
         } else {
+            setSnackPack((prev) => [...prev, { message: 'Set unfavorited!', key: new Date().getTime() }]);
             setFavorites(prevFavorites => [...prevFavorites.slice(props.movie.id)]);
         }
     }
