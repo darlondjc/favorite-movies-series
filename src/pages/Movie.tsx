@@ -2,7 +2,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Card, CardMedia, Grid, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { SearchAppBar } from "../components/SearchAppBar";
+import { MyAppBar } from "../components/MyAppBar";
 
 const moviesURL = import.meta.env.VITE_API;
 const imageURL = import.meta.env.VITE_IMG;
@@ -26,7 +26,7 @@ export const Movie = () => {
 
     return (
         <div>
-            <SearchAppBar showSearch={false} title={movie.title} voltar={true}/>
+            <MyAppBar showSearch={false} title={movie.title} voltar={true}/>
             <Grid container>
                 <Grid item xs={2} sx={{ margin: 5 }}>
                     <Card>

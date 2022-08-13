@@ -1,10 +1,18 @@
 import { Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
-import { SearchAppBar } from "../components/SearchAppBar";
+import { MyAppBar } from "../components/MyAppBar";
 
 const popularMoviesURL = import.meta.env.VITE_API;
 const apiKey = import.meta.env.VITE_API_KEY;
+
+type Movie = {
+    id: string,
+    title: string,
+    overview: string,
+    poster_path: string,
+    favorite: boolean
+}
 
 export const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -15,7 +23,6 @@ export const Home = () => {
         const data = await res.json();
 
         setMovies(data.results);
-        //console.log(data.results);
     }
 
     useEffect(() => {
@@ -28,21 +35,21 @@ export const Home = () => {
         setTermoPesquisa(event.target.value);
     }
 
-    const popularMoviesFiltered = movies?.filter((movie: any) => {
+    const popularMoviesFiltered = movies?.filter((movie: Movie) => {
         if (termoPesquisa != null) {
             return movie.title.toLowerCase().includes(termoPesquisa.toLowerCase());
         }
     });
     return (
         <div>
-            <SearchAppBar showSearch={true} termoPesquisa={{ onChange: handleChange }} />
-            <Typography gutterBottom variant="h5" component="div" sx={{ marginLeft: 6, marginRight: 2, marginTop: 2 }}>
+            <MyAppBar showSearch={true} termoPesquisa={{ onChange: handleChange }} />
+            <Typography gutterBottom variant="h5" component="div" sx={{ marginLeft: 10, marginTop: 2 }}>
                 Popular Movies
             </Typography>
-            <Grid container spacing={4} sx={{ marginLeft: 2, marginRight: 2, marginTop: 1, display: "flex" }}>
+            <Grid container spacing={5} sx={{ marginLeft: 5, width: '95%' }}>
                 {popularMoviesFiltered?.map((movie: any) => {
                     //console.log(movie);
-                    return <Grid item xs={3}><MovieCard movie={movie} /></Grid>;
+                    return <Grid key={movie.title} item xs={3}><MovieCard movie={movie} /></Grid>;
                 })}
             </Grid>
         </div>
