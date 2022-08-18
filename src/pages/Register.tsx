@@ -22,7 +22,7 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  //const { signup }: any = useAuth();
+  const { signup }: any = useAuth();
 
   const handleSignup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,17 +31,16 @@ export default function Register() {
       setError("Preencha todos os campos");
       return;
     } else if (password !== confirmPassword) {
-      setError("Os e-mails não são iguais");
+      setError("Senha e sua confirmação não são iguais");
       return;
     }
-    console.log(email);
 
-    //const res = signup(email, password);
+    const res = signup(email, password);
 
-    /* if (res) {
+    if (res) {
       setError(res);
       return;
-    } */
+    }
 
     alert("Usuário cadatrado com sucesso!");
     navigate("/");
