@@ -7,10 +7,9 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useContext';
+import { useAuth } from '../contexts/auth';
 
 
 const theme = createTheme();
@@ -22,16 +21,16 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { signup }: any = useAuth();
+  const { signup } = useAuth();
 
   const handleSignup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!email || !password || !confirmPassword) {
-      setError("Preencha todos os campos");
+      setError("Please, fill all the fields");
       return;
     } else if (password !== confirmPassword) {
-      setError("Senha e sua confirmação não são iguais");
+      setError("Password and his confirm are diffent");
       return;
     }
 
@@ -42,7 +41,7 @@ export default function Register() {
       return;
     }
 
-    alert("Usuário cadatrado com sucesso!");
+    alert("User saved sucessfully!");
     navigate("/");
 
   };

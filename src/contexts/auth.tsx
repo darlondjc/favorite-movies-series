@@ -1,9 +1,18 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { User } from '../types/user';
 
-export const AuthContext = createContext({});
+type AuthProps = {
+  user: User,
+  setUser: () => {},
+  signin: () => {},
+  signup: () => {},
+  signout: () => {},
+}
 
-export const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState<{email: any, password: any} | null>();
+const AuthContext = createContext({});
+
+export function AuthProvider({ children }: any) {
+  const [user, setUser] = useState<User | null>();
 
   useEffect(() => {
     const userToken = localStorage.getItem("user_token");
@@ -11,17 +20,17 @@ export const AuthProvider = ({ children }: any) => {
 
     if (userToken && usersStorage) {
       const hasUser = JSON.parse(usersStorage)?.filter(
-        (user: any) => user.email === JSON.parse(userToken).email
+        (user: User) => user.email === JSON.parse(userToken).email
       );
 
       if (hasUser) setUser(hasUser[0]);
     }
   }, []);
 
-  const signin = (email: any, password: any) => {
+  const signin = (email: string, password: string) => {
     const usersStorage = JSON.parse(localStorage.getItem("users_bd") || '{}');
 
-    const hasUser = usersStorage?.filter((user: any) => user.email === email);
+    const hasUser = usersStorage?.filter((user: User) => user.email === email);
 
     if (hasUser?.length) {
       if (hasUser[0].email === email && hasUser[0].password === password) {
@@ -30,20 +39,21 @@ export const AuthProvider = ({ children }: any) => {
         setUser({ email, password });
         return;
       } else {
-        return "E-mail ou senha incorretos";
+        return "Wrong E-mail or Password";
       }
     } else {
-      return "Usuário não cadastrado";
+      return "User not found";
     }
   };
 
-  const signup = (email: any, password: any) => {
+  const signup = (email: string, password: string) => {
+    console.log(localStorage);
     const usersStorage = JSON.parse(localStorage.getItem("users_bd") || '{}');
 
-    const hasUser = usersStorage?.filter((user: any) => user.email === email);
+    const hasUser = usersStorage?.filter((user: User) => user.email === email);
 
     if (hasUser?.length) {
-      return "Já tem uma conta com esse E-mail";
+      return "There is already an user with this e-mail";
     }
 
     let newUser;
@@ -55,8 +65,7 @@ export const AuthProvider = ({ children }: any) => {
     }
 
     localStorage.setItem("users_bd", JSON.stringify(newUser));
-
-    return;
+    setUser({ email, password })
   };
 
   const signout = () => {
@@ -66,9 +75,15 @@ export const AuthProvider = ({ children }: any) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, signed: !!user, signin, signup, signout }}
+      value={{ user, setUser, signed: !!user, signin, signout, signup }}
     >
       {children}
     </AuthContext.Provider>
   );
-};	
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  const { user, setUser, signed, signin, signout, signup } = context;
+  return { user, setUser, signed, signin, signout, signup };
+}
