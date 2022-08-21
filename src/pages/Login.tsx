@@ -31,7 +31,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
-  const { signin }: any = useAuth();
+  const { signin } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
@@ -41,10 +41,11 @@ export default function Login() {
     event.preventDefault();
 
     const res = signin(email, password);
+    console.log(email, password);
+    
 
-    if (res) {
+    if (res != null) {
       setError(res);
-      return;
     } else {
       alert("Login sucessfull!");
       navigate("/home");

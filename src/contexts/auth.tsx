@@ -1,18 +1,32 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '../types/user';
 
-type AuthProps = {
+type UserFunction = (email: string, password: string) => void;
+type Auth = {
   user: User,
-  setUser: () => {},
-  signin: () => {},
-  signup: () => {},
-  signout: () => {},
+  setUser: any,
+  signed: boolean
+  signin: UserFunction,
+  signup: UserFunction,
+  signout: () => void
 }
 
-const AuthContext = createContext({});
+const newUser = {
+  email: 'xxxxx',
+  password: ''
+} as User;
+
+const AuthContext = createContext<Auth>({
+  user: newUser,
+  setUser: () => {},
+  signed: false,
+  signin: (email: string, password: string) => {},
+  signup: (email: string, password: string) => {},
+  signout: () => {}
+});
 
 export function AuthProvider({ children }: any) {
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState<User>(newUser);
 
   useEffect(() => {
     const userToken = localStorage.getItem("user_token");
@@ -31,6 +45,8 @@ export function AuthProvider({ children }: any) {
     const usersStorage = JSON.parse(localStorage.getItem("users_bd") || '{}');
 
     const hasUser = usersStorage?.filter((user: User) => user.email === email);
+    console.log(hasUser);
+    
 
     if (hasUser?.length) {
       if (hasUser[0].email === email && hasUser[0].password === password) {
@@ -69,7 +85,7 @@ export function AuthProvider({ children }: any) {
   };
 
   const signout = () => {
-    setUser(null);
+    setUser(newUser);
     localStorage.removeItem("user_token");
   };
 

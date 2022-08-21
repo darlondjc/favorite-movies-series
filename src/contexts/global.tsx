@@ -1,6 +1,18 @@
 import { createContext, useContext } from 'react';
 
-const GlobalContext = createContext({});
+type GlobalUrl = {
+    VITE_API_KEY: string,
+    VITE_API: string,
+    VITE_SEARCH: string,
+    VITE_IMG: string
+}
+
+const GlobalContext = createContext<GlobalUrl>({
+    VITE_API_KEY: '',
+    VITE_API: '',
+    VITE_SEARCH: '',
+    VITE_IMG: ''
+});
 
 export function GlobalProvider({ children }: any) {
     const VITE_API_KEY = 'api_key=8ed200f50a6942ca5bc8b5cdec27ff22';
