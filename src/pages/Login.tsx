@@ -42,8 +42,8 @@ export default function Login() {
 
     const res = signin(email, password);
     console.log(email, password);
+    console.log(res);
     
-
     if (res != null) {
       setError(res);
     } else {

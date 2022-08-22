@@ -9,7 +9,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useAuth } from '../contexts/auth';
 
 
@@ -22,12 +21,10 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const context = useAuth();
+  const { user, signup } = useAuth();
 
   const handleSignup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(context);
-    
 
     if (!email || !password || !confirmPassword) {
       setError("Please, fill all the fields");
@@ -37,8 +34,10 @@ export default function Register() {
       return;
     }
 
-    const res = null;
-    
+    const res = signup(email, password);
+    console.log(res);
+    console.log(user);
+
     if (res != null) {
       setError(res);
       return;

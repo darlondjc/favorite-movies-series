@@ -15,7 +15,7 @@ const initialContext = {
   signout: () => { }
 };
 
-export const AuthContext = createContext(initialContext);
+export const AuthContext = createContext<Partial<any>>(initialContext);
 
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<User>(newUser);
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: any) => {
     }
   }, []);
 
-  const signin = (email: string, password: string) => {
+  const signin2 = (email: string, password: string) => {
     const usersStorage = JSON.parse(localStorage.getItem("users_bd") || '{}');
 
     const hasUser = usersStorage?.filter((user: User) => user.email === email);
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
-  const signup = (email: string, password: string) => {
+  const signup2 = (email: string, password: string) => {
     console.log(localStorage);
     const usersStorage = JSON.parse(localStorage.getItem("users_bd") || '{}');
 
@@ -76,14 +76,16 @@ export const AuthProvider = ({ children }: any) => {
     setUser({ email, password })
   };
 
-  const signout = () => {
+  const signout2 = () => {
     setUser(newUser);
     localStorage.removeItem("user_token");
   };
 
+  const values = { user, setUser, signed: !!user, signin2, signout2, signup2 };
+
   return (
     <AuthContext.Provider
-      value={{ user, setUser, signed: !!user, signin, signout, signup }}
+      value={values}
     >
       {children}
     </AuthContext.Provider>
@@ -92,7 +94,6 @@ export const AuthProvider = ({ children }: any) => {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (context === undefined) throw new Error(
-    "Expected an AppProvider somewhere in the react tree to set context value")
-  return context;
+  const { user, setUser, signed, signin, signout, signup } = context;
+  return { user, setUser, signed, signin, signout, signup };
 }
