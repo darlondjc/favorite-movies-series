@@ -14,7 +14,6 @@ const Private = ({ Item }: any) => {
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route element={<App />} />
@@ -24,5 +23,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="movie/:id" element={<Private Item={Movie} />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
 )

@@ -1,31 +1,23 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '../types/user';
 
-type UserFunction = (email: string, password: string) => void;
-type Auth = {
-  user: User,
-  setUser: any,
-  signed: boolean
-  signin: UserFunction,
-  signup: UserFunction,
-  signout: () => void
-}
-
 const newUser = {
   email: 'xxxxx',
   password: ''
 } as User;
 
-const AuthContext = createContext<Auth>({
+const initialContext = {
   user: newUser,
-  setUser: () => {},
+  setUser: (user: User) => { },
   signed: false,
-  signin: (email: string, password: string) => {},
-  signup: (email: string, password: string) => {},
-  signout: () => {}
-});
+  signin: (email: string, password: string) => { },
+  signup: (email: string, password: string) => { },
+  signout: () => { }
+};
 
-export function AuthProvider({ children }: any) {
+export const AuthContext = createContext(initialContext);
+
+export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<User>(newUser);
 
   useEffect(() => {
@@ -46,7 +38,7 @@ export function AuthProvider({ children }: any) {
 
     const hasUser = usersStorage?.filter((user: User) => user.email === email);
     console.log(hasUser);
-    
+
 
     if (hasUser?.length) {
       if (hasUser[0].email === email && hasUser[0].password === password) {
@@ -96,10 +88,11 @@ export function AuthProvider({ children }: any) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  const { user, setUser, signed, signin, signout, signup } = context;
-  return { user, setUser, signed, signin, signout, signup };
+  if (context === undefined) throw new Error(
+    "Expected an AppProvider somewhere in the react tree to set context value")
+  return context;
 }
