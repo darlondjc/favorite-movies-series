@@ -7,9 +7,10 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import { useContext, useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/auth';
+import { useAuth } from '../contexts/auth';
 
 
 const theme = createTheme();
@@ -21,9 +22,9 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
+  const { signup } = useAuth();
 
-  const handleSignup = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSignup = (event) => {
     event.preventDefault();
 
     if (!email || !password || !confirmPassword) {
@@ -34,11 +35,9 @@ export default function Register() {
       return;
     }
 
-    const res = authContext.signup(email, password);
-    console.log(res);
-    console.log(authContext.user);
+    const res = signup(email, password);
 
-    if (res != null) {
+    if (res) {
       setError(res);
       return;
     }

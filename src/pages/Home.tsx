@@ -1,11 +1,10 @@
 import { Grid, Typography } from "@mui/material";
+import axios from "axios";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { MyAppBar } from "../components/MyAppBar";
-import axios from "axios";
-
-const popularMoviesURL = import.meta.env.VITE_API;
-const apiKey = import.meta.env.VITE_API_KEY;
+import { GlobalContext } from "../contexts/global";
 
 type Movie = {
     id: string,
@@ -16,6 +15,7 @@ type Movie = {
 }
 
 export const Home = () => {
+    const globalContext = useContext(GlobalContext);
     const [movies, setMovies] = useState([]);
     const [termoPesquisa, setTermoPesquisa] = useState('');
 
@@ -25,7 +25,7 @@ export const Home = () => {
     }
 
     useEffect(() => {
-        const url = `${popularMoviesURL}popular?${apiKey}`;
+        const url = `${globalContext.VITE_API}popular?${globalContext.VITE_API_KEY}`;
         getMovies(url);
     }, []);
 
@@ -46,7 +46,6 @@ export const Home = () => {
             </Typography>
             <Grid container spacing={5} sx={{ marginLeft: 5, width: '95%' }}>
                 {popularMoviesFiltered?.map((movie: any) => {
-                    //console.log(movie);
                     return <Grid key={movie.title} item xs={3}><MovieCard movie={movie} /></Grid>;
                 })}
             </Grid>

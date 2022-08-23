@@ -3,17 +3,19 @@ import { Card, CardContent } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/auth';
+import { useAuth } from '../contexts/auth';
 
 function Copyright(props: any) {
   return (
@@ -31,7 +33,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
-  const authContext = useContext(AuthContext);
+  const { signin }: any = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
@@ -40,12 +42,11 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const res = authContext.signin(email, password);
-    console.log(email, password);
-    console.log(res);
-    
-    if (res != null) {
+    const res = signin(email, password);
+
+    if (res) {
       setError(res);
+      return;
     } else {
       alert("Login sucessfull!");
       navigate("/home");

@@ -7,7 +7,7 @@ import InputBase from '@mui/material/InputBase';
 import { alpha, styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
@@ -74,7 +74,7 @@ export function MyAppBar(props: any) {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            component={Link} to={'/'}
+            component={Link} to={'/home'}
           >
             <ArrowBackIcon />
           </IconButton>}
@@ -93,7 +93,7 @@ export function MyAppBar(props: any) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
-              onChange={props.termoPesquisa.onChange}
+              onChange={props.termoPesquisa == undefined ? null : props.termoPesquisa.onChange}
             />
           </Search>
           {auth && (

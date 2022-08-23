@@ -8,10 +8,10 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const imageURL = import.meta.env.VITE_IMG;
+import { GlobalContext } from '../contexts/global';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -34,6 +34,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function MovieCard(props: any) {
+    const globalContext = useContext(GlobalContext);
+    
     const [expanded, setExpanded] = useState(false);
     const [openSnackBar, setOpenSnackBar] = useState(false);
     const [favorites, setFavorites] = useState<string[]>([]);
@@ -87,7 +89,7 @@ export default function MovieCard(props: any) {
             <CardActionArea component={Link} to={'/movie/' + props.movie.id}>
                 <CardMedia
                     component="img"
-                    image={imageURL + props.movie.poster_path}
+                    image={globalContext.VITE_IMG + props.movie.poster_path}
                     alt={props.movie.title}
                 />
             </CardActionArea>

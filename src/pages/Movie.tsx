@@ -1,15 +1,15 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Card, CardMedia, Grid, IconButton, Typography } from "@mui/material";
 import axios from 'axios';
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MyAppBar } from "../components/MyAppBar";
-
-const moviesURL = import.meta.env.VITE_API;
-const imageURL = import.meta.env.VITE_IMG;
-const apiKey = import.meta.env.VITE_API_KEY;
+import { GlobalContext } from '../contexts/global';
 
 export const Movie = () => {
+    const globalContext = useContext(GlobalContext);
+    
     const { id } = useParams();
     const [movie, setMovie] = useState<any>([]);
 
@@ -19,7 +19,7 @@ export const Movie = () => {
     }
 
     useEffect(() => {
-        const movieUrl = `${moviesURL}${id}?${apiKey}`;
+        const movieUrl = `${globalContext.VITE_API}${id}?${globalContext.VITE_API_KEY}`;
         getMovie(movieUrl);
     }, []);
 
@@ -31,7 +31,7 @@ export const Movie = () => {
                     <Card>
                         <CardMedia
                             component="img"
-                            image={imageURL + movie.poster_path}
+                            image={globalContext.VITE_IMG + movie.poster_path}
                             alt={movie.title}
                         />
                     </Card>
