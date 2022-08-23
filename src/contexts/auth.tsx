@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { User } from '../types/user';
 
 const newUser = {
@@ -91,9 +91,3 @@ export const AuthProvider = ({ children }: any) => {
     </AuthContext.Provider>
   );
 };
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  const { user, setUser, signed, signin, signout, signup } = context;
-  return { user, setUser, signed, signin, signout, signup };
-}

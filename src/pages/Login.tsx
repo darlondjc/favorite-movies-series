@@ -11,9 +11,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/auth';
+import { AuthContext } from '../contexts/auth';
 
 function Copyright(props: any) {
   return (
@@ -31,7 +31,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
-  const { signin } = useAuth();
+  const { signin } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");

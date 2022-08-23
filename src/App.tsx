@@ -1,7 +1,9 @@
+import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
-import { AuthProvider } from './contexts/auth';
+import { AuthContext, AuthProvider } from './contexts/auth';
 
-function App() {
+export function App() {
+  
   return (
     <AuthProvider>
       <div className="App">
