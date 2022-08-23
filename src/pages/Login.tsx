@@ -31,7 +31,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
-  const { signin } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
@@ -40,7 +40,7 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const res = signin(email, password);
+    const res = authContext.signin(email, password);
     console.log(email, password);
     console.log(res);
     

@@ -21,7 +21,7 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { user, signup } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
   const handleSignup = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,9 +34,9 @@ export default function Register() {
       return;
     }
 
-    const res = signup(email, password);
+    const res = authContext.signup(email, password);
     console.log(res);
-    console.log(user);
+    console.log(authContext.user);
 
     if (res != null) {
       setError(res);

@@ -1,11 +1,10 @@
-import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
-import { AuthContext, AuthProvider } from './contexts/auth';
+import { AuthProvider } from './contexts/auth';
 
 export function App() {
-  
+
   return (
-    <AuthProvider>
+    <AuthProvider >
       <div className="App">
         <Outlet />
       </div>
