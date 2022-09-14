@@ -19,7 +19,10 @@ export const Movie = () => {
     }
 
     useEffect(() => {
-        const movieUrl = `${globalContext.VITE_API}${id}?${globalContext.VITE_API_KEY}`;
+        //const movieUrl = `${globalContext.VITE_API}${id}?${globalContext.VITE_API_KEY}`;
+        const movieUrl = `${globalContext.LOCAL_API}/movie/${id}`;
+        console.log(movieUrl);
+        
         getMovie(movieUrl);
     }, []);
 

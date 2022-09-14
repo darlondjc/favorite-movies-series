@@ -21,11 +21,17 @@ export const Home = () => {
 
     const getMovies = async (url: string) => {
         await axios.get(url)
-            .then(response => setMovies(response.data.results));
+            .then(response => {
+                console.log(response.data);
+                
+                //setMovies(response.data.results)
+                setMovies(response.data)
+            });
     }
 
     useEffect(() => {
-        const url = `${globalContext.VITE_API}popular?${globalContext.VITE_API_KEY}`;
+        //const url = `${globalContext.VITE_API}popular?${globalContext.VITE_API_KEY}`;
+        const url = `${globalContext.LOCAL_API}/movie`;
         getMovies(url);
     }, []);
 
